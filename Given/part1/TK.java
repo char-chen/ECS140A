@@ -46,4 +46,7 @@ public class TK {
   // TK.none marks end of each first set in parsing.
   // you might not need this.
   public static final TK none   = new TK("TK.none");
+  public static final TK TILDE = new TK("TK.TILDE");
+  public static final TK ASSIGN = new TK("TK.ASSIGN");  
+  public static final TK ENDDO =  new TK("TK.ENDDO"); 
 }
