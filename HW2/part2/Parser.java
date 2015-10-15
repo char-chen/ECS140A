@@ -54,11 +54,11 @@ public class Parser {
     private boolean statement() {
       if (is(TK.ID) || is(TK.TILDE))
         assignment();
-      else if(is(TK.PRINT)) // !
+      else if(is(TK.PRINT))
         print();
-      else if(is(TK.DO)) // <
+      else if(is(TK.DO))
         DO();
-      else if(is(TK.IF)) // [
+      else if(is(TK.IF))
         IF();
       else
         return false;
@@ -92,11 +92,24 @@ public class Parser {
     private void DO() {
       scan();
       guarded_command();
+      mustbe(TK.ENDDO);
     }
     
     private void IF() {
       scan();
       guarded_command();
+      
+      while (is(TK.ELSEIF)) {
+        scan();
+        guarded_command();
+      }
+      
+      if (is(TK.ELSE)) {
+        scan();
+        block();
+      }
+
+      mustbe(TK.ENDIF); 
     }
     
     private void guarded_command() {
@@ -121,26 +134,31 @@ public class Parser {
     
     private void factor() {
       if (is(TK.LPAREN)) {
+        scan();
         expr();
         mustbe(TK.RPAREN);
       }
-      else if (is(TK.ID))
+      else if ((is(TK.ID)) || is(TK.TILDE))
         ref_id();
       else
         mustbe(TK.NUM);    
     }
      
     private boolean addop() {
-      if (is(TK.PLUS) || is(TK.MINUS))
+      if (is(TK.PLUS) || is(TK.MINUS)) {
+        scan();
         return true;
+      }
       
       return false; 
     }
 
     private boolean multop() {
-      if (is(TK.TIMES) || is(TK.DIVIDE))
+      if (is(TK.TIMES) || is(TK.DIVIDE)) {
+        scan();
         return true;
-  
+      }
+
       return false;
     }
       
