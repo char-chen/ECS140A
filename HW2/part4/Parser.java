@@ -57,9 +57,10 @@ public class Parser {
       mustbe(TK.ID);
       scan();
          
-      if (!add(prev))
+      if (isDeclared(prev, 0, false) != -1)
         System.err.println("redeclaration of variable " + prev.string);
       else {
+        symbolTable.peek().add(prev);
         if (isPrinted)
           System.out.print(",");
         else
@@ -71,23 +72,13 @@ public class Parser {
     
     System.out.print(";");
   }
-  public boolean add (Token t) {
-    if (contains(t, 0, false))
-      return false;
-    else
-      symbolTable.peek().add(t);
-    return true;
-  }
-  private boolean contains(Token t, int scope, boolean recu) {
-    return isDeclared(t, scope, recu) != -1;
-  }
+  
   private int isDeclared(Token t, int scope, boolean done)
   {
     if(scope == -1) 
       scope = symbolTable.size() - 1;
     
-    for (int i = symbolTable.size() - scope - 1; i >= 0; i--)
-    {
+    for (int i = symbolTable.size() - scope - 1; i >= 0; i--) {
       for(Token var : symbolTable.elementAt(i))
         if(t.string.equals(var.string))
           return i;
