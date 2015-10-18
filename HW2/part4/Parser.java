@@ -272,7 +272,7 @@ public class Parser {
   private void indent() {
     System.out.println();
     
-    for (int i = 0; i < symbolTable.size() + 2; i++)
+    for (int i = 0; i < symbolTable.size(); i++)
       System.out.print("  ");
   } 
 }
