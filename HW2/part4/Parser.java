@@ -2,7 +2,6 @@ import java.util.Stack;
 import java.util.ArrayList;
 
 public class Parser {
-
   private Token tok;
   private Scan scanner;
   private Stack<ArrayList<Token>> symbolTable;
@@ -16,17 +15,14 @@ public class Parser {
     symbolTable = new Stack<ArrayList<Token>>();
     scan();
     program();
-    if( tok.kind != TK.EOF )
+    if(tok.kind != TK.EOF)
       parse_error("junk after logical end of program");
   }
 
   private void program() {
     System.out.println("#include <stdio.h>");
-    System.out.print("#define __EXPR(_EXPR) ( (_EXPR) <= 0 )\n\n");
-    System.out.print("int main()\n{");
+    System.out.print("\nint main()");
     block();
-    indent();
-    System.out.print("return 0;\n}");
   }
 
   private void block(){
@@ -50,7 +46,7 @@ public class Parser {
     indent();
     System.out.print("int"); 
     boolean isPrinted = false;
-    
+   
     do {
       scan();
       Token prev = tok;
@@ -131,8 +127,7 @@ public class Parser {
     int scope = 0;
     boolean isDec = is(TK.TILDE);
      
-    if (isDec)
-    {
+    if (isDec) {
       scan();
     
       if (is(TK.NUM)) {
@@ -195,9 +190,9 @@ public class Parser {
   }
   
   private void guarded_command() {
-    System.out.print(" __EXPR( ");
+    System.out.print("(");
     expr();
-    System.out.print(" )");
+    System.out.print(" <= 0)");
     mustbe(TK.THEN);
     scan();
     block();
@@ -256,27 +251,28 @@ public class Parser {
     return false;
   }
     
-  // is current token what we want?
+  // Is current token what we want?
   private boolean is(TK tk) {
     return tk == tok.kind;
   }
 
-  // ensure current token is tk and skip over it.
+  // Ensure current token is tk and skip over it.
   private void mustbe(TK tk) {
     if( tok.kind != tk ) {
-      System.err.println( "mustbe: want " + tk + ", got " + tok);
-      parse_error( "missing token (mustbe)" );
+      System.err.println("mustbe: want " + tk + ", got " + tok);
+      parse_error("missing token (mustbe)");
     }
   }
 
   private void parse_error(String msg) {
-    System.err.println( "can't parse: line " + tok.lineNumber + " " + msg );
+    System.err.println("can't parse: line " + tok.lineNumber + " " + msg);
     System.exit(1);
   }
-
+  
   private void indent() {
     System.out.println();
+    
     for (int i = 0; i < symbolTable.size() + 2; i++)
       System.out.print("  ");
-  }  
+  } 
 }

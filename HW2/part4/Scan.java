@@ -2,10 +2,6 @@
 
 import java.io.*;
 
-// Note this code is written to aid the student in learning Java.
-// A Java expert could certainly improve the efficiency, conciseness, and
-// style of this code.
-
 public class Scan {
 
   // default max length of identifiers; truncate extra.

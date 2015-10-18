@@ -1,8 +1,6 @@
 #include <stdio.h>
-#define __EXPR(_EXPR) ( (_EXPR) <= 0 )
 
 int main()
-{
     {
       int x_i0, x_k0;
       int x_s0, x_t0;
@@ -10,21 +8,21 @@ int main()
       x_i0 = 25;
       x_s0 = 11;
       printf("%d\n", x_s0);
-      while __EXPR( 10 - x_i0 )
+      while(10 - x_i0 <= 0)
       {
-        if __EXPR( 20 - x_i0 )
+        if(20 - x_i0 <= 0)
         {
           x_k0 = 20 - x_i0;
-          while __EXPR( x_k0 )
+          while(x_k0 <= 0)
           {
             printf("%d\n", x_k0);
             x_k0 = x_k0 + 1;
           }
         }
-        else if __EXPR( 15 - x_i0 )
+        else if(15 - x_i0 <= 0)
         {
           x_k0 = 15 - x_i0;
-          while __EXPR( x_k0 )
+          while(x_k0 <= 0)
           {
             int x_long3;
             x_long3 = 10 * x_k0;
@@ -35,7 +33,7 @@ int main()
         else
         {
           x_k0 = 10 - x_i0;
-          while __EXPR( x_k0 )
+          while(x_k0 <= 0)
           {
             printf("%d\n", x_k0);
             x_k0 = x_k0 + 1;
@@ -45,5 +43,3 @@ int main()
       }
       printf("%d\n", x_i0);
     }
-    return 0;
-}

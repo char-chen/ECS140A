@@ -1,12 +1,10 @@
 #include <stdio.h>
-#define __EXPR(_EXPR) ( (_EXPR) <= 0 )
 
 int main()
-{
     {
       int x_bbbb0;
       x_bbbb0 = 23;
-      if __EXPR( x_bbbb0 )
+      if(x_bbbb0 <= 0)
       {
         printf("%d\n", x_bbbb0);
       }
@@ -15,7 +13,7 @@ int main()
         int x_k1;
         x_k1 = 999;
         printf("%d\n", x_k1 + x_k1);
-        if __EXPR( x_k1 )
+        if(x_k1 <= 0)
         {
           printf("%d\n", 1111);
         }
@@ -27,7 +25,7 @@ int main()
           printf("%d\n", x_bbbb2);
           x_bbbb0 = 11;
           x_bbbb2 = x_bbbb2 + 10000;
-          while __EXPR( x_bbbb0 - 22 )
+          while(x_bbbb0 - 22 <= 0)
           {
             int x_bbbb3;
             x_bbbb3 = 77;
@@ -53,5 +51,3 @@ int main()
       printf("%d\n", x_bbbb0);
       printf("%d\n", x_bbbb0);
     }
-    return 0;
-}
