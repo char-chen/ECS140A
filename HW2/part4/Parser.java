@@ -15,6 +15,7 @@ public class Parser {
     symbolTable = new Stack<ArrayList<Token>>();
     scan();
     program();
+    
     if(tok.kind != TK.EOF)
       parse_error("junk after logical end of program");
   }
@@ -53,23 +54,24 @@ public class Parser {
       mustbe(TK.ID);
       scan();
          
-      if (isDeclared(prev, 0, false) != -1)
+      if (searchScope(prev, 0, false) != -1)
         System.err.println("redeclaration of variable " + prev.string);
       else {
         symbolTable.peek().add(prev);
+        
         if (isPrinted)
           System.out.print(",");
         else
           isPrinted = true;
       
         System.out.print(" x_" + prev.string + (symbolTable.size() - 1));
-      } 
+      }
     } while(is(TK.COMMA));
     
     System.out.print(";");
   }
   
-  private int isDeclared(Token t, int scope, boolean done)
+  private int searchScope(Token t, int scope, boolean done)
   {
     if(scope == -1) 
       scope = symbolTable.size() - 1;
@@ -80,10 +82,10 @@ public class Parser {
           return i;
       
       if(!done)
-        break;
+        return -1;
     }
     
-    return -1;
+    return -1;  
   }
   
   private void statement_list() {
@@ -99,6 +101,8 @@ public class Parser {
       DO();
     else if(is(TK.IF))
       IF();
+    else if (is(TK.FOR))
+      FOR();
     else
       return false;
     
@@ -142,18 +146,19 @@ public class Parser {
     mustbe(TK.ID);
     scan();
     
-    int found = isDeclared(prev, scope, !isDec);
-      
-    if (found == -1) {
+    if (searchScope(prev, scope, !isDec) == -1) {
       if (isDec)
-        System.err.println("no such variable ~" + (scope == -1 ? "" : scope) + prev.string + " on line " + prev.lineNumber);
+        if (scope != -1)
+          System.err.println("no such variable ~" + scope + prev.string + " on line " + prev.lineNumber);
+        else
+          System.err.println("no such variable ~" + prev.string + " on line " + prev.lineNumber);
       else
         System.err.println(prev.string + " is an undeclared variable on line " + prev.lineNumber);
         
       System.exit(1);
     }
     else
-      System.out.print("x_" + prev.string + found);
+      System.out.print("x_" + prev.string + searchScope(prev, scope, !isDec));
   }
 
   private void DO() {
@@ -165,6 +170,37 @@ public class Parser {
     scan();
   }
   
+  private void FOR() {
+    scan();
+    indent();
+    System.out.print("for (");
+
+    ref_id();
+    mustbe(TK.ASSIGN);
+    scan();
+    System.out.print(" = ");
+    expr();
+    System.out.print("; ");
+    
+    expr();
+    System.out.print(" <= 0");
+    System.out.print("; ");
+   
+    ref_id();
+    mustbe(TK.ASSIGN);
+    scan();
+    System.out.print(" = ");
+    expr();
+    
+    mustbe(TK.ENDFOR);
+    scan();
+    System.out.print(")");
+    
+    mustbe(TK.THEN);
+    scan();
+    block();
+  }
+
   private void IF() {
     scan();
     indent();
@@ -188,7 +224,7 @@ public class Parser {
     mustbe(TK.ENDIF);
     scan();
   }
-  
+
   private void guarded_command() {
     System.out.print("(");
     expr();

@@ -47,5 +47,7 @@ public class TK {
   
   public static final TK TILDE = new TK("TK.TILDE");
   public static final TK ASSIGN = new TK("TK.ASSIGN");  
-  public static final TK ENDDO =  new TK("TK.ENDDO"); 
+  public static final TK ENDDO =  new TK("TK.ENDDO");
+  public static final TK FOR = new TK("TK.FOR"); 
+  public static final TK ENDFOR = new TK("TK.ENDFOR");
 }

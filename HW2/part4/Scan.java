@@ -86,6 +86,10 @@ public class Scan {
             return ccase1('=', TK.ASSIGN);
           case '>':
             return ccase1('>', TK.ENDDO);
+          case '{':
+            return ccase1('{', TK.FOR);
+          case '}':
+            return ccase1('}', TK.ENDFOR);
           case EOF:
 			      got_eof = true;
 			      return new Token(TK.EOF, new String("*EOF*"), linenumber);
