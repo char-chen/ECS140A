@@ -1,89 +1,103 @@
 public class Sequence extends Element {
-  private Node head;
-  private int count;
-  
+  Element element;
+  Sequence next;
+ 
   public Sequence() {
-    head = null;
-    count = 0;
   }
-
+   
+  public Sequence(Element element, Sequence next) {
+    this.element = element;
+    this.next = next;
+  }
+   
   @Override
   public void Print() {
-    System.out.print("[ ");
+    System.out.print("[");
+        
+    for (Sequence ptr = this; ptr != null; ptr = ptr.next)
+      if (ptr.element != null)
+        ptr.element.Print();
     
-    for (SequenceIterator itr = this.begin(); !itr.equal(this.end()); itr.advance())
-      itr.get().Print();
-
-    System.out.print(
+    System.out.print("]");
   }
-
+  
+  //Return first element.
   public Element first() {
-    return head.data;
+    return this.element;
   }
 
+  //Return the rest of the elements.
   public Sequence rest() {
-    
-    return
+    return this.next;
   }
   
+  //Return number of elements.
   public int length() {
-    return count;
+    int i = 0;
+    
+    for (Sequence ptr = this; ptr != null; ptr = ptr.next)
+      i++;
+    
+    return i;
   }
   
+  //Add an element to a specific position.
   public void add(Element elem, int pos) {
-    Node ptr = head, prev = null;
+    Sequence ptr = this, prev = null;
       
     for (int i = 0; i < pos; i++, ptr = ptr.next)
       prev = ptr;
 
     if (prev == null)
-      head = new Node(elem, head);
+      ptr = new Sequence(elem, this);
     else
-      prev.next = new Node(elem, ptr);
-   
-    count++;    
+      prev.next = new Sequence(elem, ptr);
   }
 
+  //Remove an element at specified psoition
   public void delete(int pos) {
-    Node ptr = head, prev = null;
+    Sequence ptr = this, prev = null;
     
     for (int i = 0; ptr != null && i < pos; i++, ptr = ptr.next)
       prev = ptr;
 
     if (ptr != null) {
       if (prev == null)
-        head = ptr.next;
+        ptr = ptr.next;
       else
         prev.next = ptr.next;
     }
-    
-    count--;
   }
-  
+ 
+  //Access element at a particular position. 
   public Element index(int pos) {
-    Node ptr = head;
+    Sequence ptr = this;
 
-    for (int i = 0, i < pos; i++)
+    for (int i = 0; i < pos; i++)
       ptr = ptr.next;
   
-    return ptr.data;
+    return ptr.element;
   }
 
+  //Flatten a sequence.
   public Sequence flatten() {
-    Sequence result = new Sequence(); 
+    Sequence result = new Sequence();
+    return result;   
   }
     
   public void copy() {
-    //deep
-    //Sequence s1 = new Sequence()
-    //s1.add(new SEquence().add(2));
-    // s1.Print()
+    Sequence result = new Sequence();
+    
+    for (SequenceIterator itr = this.begin(); !itr.equal(this.end()); itr.advance())
+      result.add(itr.get(), this.length());
   }
 
+  //First element of sequence
   public SequenceIterator begin() {
-    return new SequenceIterator(head);
+    return new SequenceIterator(this);
   }
 
+  //One past the end
   public SequenceIterator end() {
     return null;
   }

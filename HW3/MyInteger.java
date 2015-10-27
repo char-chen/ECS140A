@@ -15,6 +15,6 @@ public class MyInteger extends Element {
 
   @Override
   public void Print() {
-    System.out.print(i);
+    System.out.print(" " + i);
   }
 }

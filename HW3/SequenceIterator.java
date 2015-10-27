@@ -1,20 +1,28 @@
 public class SequenceIterator extends Element {
-  public Node current;
+  public Sequence current;
  
-  public SequenceIterator(Node node) {
+  public SequenceIterator(Sequence node) {
     current = node;
+  }
+  
+  @Override
+  public void Print() {
+    current.element.Print();
   }
    
   public boolean equal(SequenceIterator other) {
-    return this.current == other.current; 
+    return this == other;
   }
   
-  public SequenceIterator advance() {
-    current = current.next;
-    return this;
+  public void advance() {
+    if (current != null)
+      current = current.next;
   }
 
   public Element get() {
-    return current.data;
+    if (current != null)
+      return current.element;
+
+    return null;
   }
 }

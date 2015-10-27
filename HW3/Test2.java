@@ -1,7 +1,7 @@
 class Test2 {
 
   public static void main(String args[]) {
-	  TestPart2();	
+	  TestPart2();
   }
 
   public static void PrintSeq(String str, Sequence s) {
@@ -44,7 +44,6 @@ class Test2 {
 	  // Test print
     System.out.println("**** Test Print");
 	  PrintSeq("s1", s1);
-
 	  // Test first/rest
     System.out.println("**** Test first/rest");
 	  Sequence s2 = s1.rest();
