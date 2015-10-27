@@ -28,15 +28,15 @@ class Test5 {
 
 	// test Set()
 	Matrix m1 = new Matrix(6, 4);
-        Matrix m2 = new Matrix(6, 4);
-        for (int i = 0, cntr = -1; i< 6; i++) {
-                for (int j = 0; j < 4; j++) {
-                        if (i < 4)
-                                m1.Set(i, j, i_arr[++cntr].Get());
-                        if (j < 3)
-                                m2.Set(i, j, i_arr[++cntr].Get());
-                }
-        }
+  Matrix m2 = new Matrix(6, 4);
+  for (int i = 0, cntr = -1; i< 6; i++) {
+         for (int j = 0; j < 4; j++) {
+                 if (i < 4)
+                         m1.Set(i, j, i_arr[++cntr].Get());
+                 if (j < 3)
+                         m2.Set(i, j, i_arr[++cntr].Get());
+         }
+  }
 
 	// test Print()
 	System.out.println ("m1 = ");

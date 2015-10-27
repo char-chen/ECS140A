@@ -15,6 +15,6 @@ public class MyChar extends Element {
   
   @Override
   public void Print() {
-    System.out.print(" '" + c + "'");
+    System.out.print("'" + c + "'");
   }
 }

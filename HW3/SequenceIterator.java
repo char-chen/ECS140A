@@ -7,7 +7,7 @@ public class SequenceIterator extends Element {
   
   @Override
   public void Print() {
-    current.element.Print();
+    current.Print();
   }
    
   public boolean equal(SequenceIterator other) {

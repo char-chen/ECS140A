@@ -12,11 +12,10 @@ public class Sequence extends Element {
    
   @Override
   public void Print() {
-    System.out.print("[");
+    System.out.print("[ ");
         
-    for (Sequence ptr = this; ptr != null; ptr = ptr.next)
-      if (ptr.element != null)
-        ptr.element.Print();
+    for (Sequence ptr = this; ptr != null; ptr = ptr.next, System.out.print(" "))
+      ptr.element.Print();
     
     System.out.print("]");
   }
@@ -45,11 +44,15 @@ public class Sequence extends Element {
   public void add(Element elem, int pos) {
     Sequence ptr = this, prev = null;
       
-    for (int i = 0; i < pos; i++, ptr = ptr.next)
+    for (int i = 0; ptr != null && i < pos; i++, ptr = ptr.next)
       prev = ptr;
 
-    if (prev == null)
-      ptr = new Sequence(elem, this);
+    if (prev == null) {
+      if (ptr.element != null)
+        this.next = new Sequence(this.element, this.next);
+        
+      this.element = elem;
+    }
     else
       prev.next = new Sequence(elem, ptr);
   }
@@ -62,8 +65,10 @@ public class Sequence extends Element {
       prev = ptr;
 
     if (ptr != null) {
-      if (prev == null)
-        ptr = ptr.next;
+      if (prev == null) {
+        this.element = this.next.element;
+        this.next = this.next.next;
+      }
       else
         prev.next = ptr.next;
     }
@@ -82,14 +87,21 @@ public class Sequence extends Element {
   //Flatten a sequence.
   public Sequence flatten() {
     Sequence result = new Sequence();
+    
+    for (Sequence itr = this; itr != null; itr = itr.next)
+      result.add(itr.element, result.length());
+      
     return result;   
   }
-    
-  public void copy() {
+   
+  //Perform a deepy copy of Sequence object 
+  public Sequence copy() {
     Sequence result = new Sequence();
     
-    for (SequenceIterator itr = this.begin(); !itr.equal(this.end()); itr.advance())
-      result.add(itr.get(), this.length());
+    for (Sequence itr = this; itr != null; itr = itr.next)
+      result.add(itr.element, result.length());
+    
+    return result;
   }
 
   //First element of sequence
