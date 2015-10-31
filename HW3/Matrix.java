@@ -17,19 +17,35 @@ public class Matrix extends Sequence {
   
   //Get the value of an element
   public int Get(int rowsize, int colsize) {
-    return matrix[rowsize][colsize].Get(value);
+    return matrix[rowsize][colsize].Get();
   }
   
   // return the sum of two matrices: mat & this
   public Matrix Sum(Matrix mat) {
+    Matrix sum = new Matrix(row, column);
+	
     for (int i = 0; i < row; i++)
       for (int j = 0; j < column; j++)
-        matrix.Set(i, j, matrix.Get(i, j) + mat.Get(i, j));
+        sum.Set(i, j, Get(i, j) + mat.Get(i, j));
+    
+    return sum;
   }
   
   // return the product of two matrices: mat & this
   public Matrix Product(Matrix mat) {
-    
+    int summy = 0;
+    Matrix mult = new Matrix(row, mat.column);
+     for (int i = 0; i < row; i++)
+      for (int j =0; j <mat.column; j++)
+      {
+	for(int q = 0; q<mat.row; q++)
+	{
+         // summy = summy + Get(i,q)*mat.Get(q,j);
+	}
+       //mult.Set(i,j, sum);
+       summy = 0;
+      } 
+    return mult;
   }
   
   @Override 
@@ -37,6 +53,6 @@ public class Matrix extends Sequence {
   public void Print() {
     for (int i = 0; i < row; i++, System.out.println())
       for (int j = 0; j < column; j++)
-        System.out.println(matrix.Get(i, j) + " ");
+        System.out.println(Get(i, j) + " ");
   }
 }
