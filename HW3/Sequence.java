@@ -14,7 +14,7 @@ public class Sequence extends Element {
   public void Print() {
     System.out.print("[ ");
         
-    for (Sequence ptr = this; ptr != null; ptr = ptr.next, System.out.print(" "))
+    for (Sequence ptr = this; ptr != null; ptr = ptr.next, System.out.print(" ")) 
       ptr.element.Print();
     
     System.out.print("]");
@@ -34,7 +34,7 @@ public class Sequence extends Element {
   public int length() {
     int i = 0;
     
-    for (Sequence ptr = this; ptr != null; ptr = ptr.next)
+    for (Sequence ptr = this; ptr != null && ptr.element != null; ptr = ptr.next)
       i++;
     
     return i;
@@ -57,7 +57,7 @@ public class Sequence extends Element {
       prev.next = new Sequence(elem, ptr);
   }
 
-  //Remove an element at specified psoition
+  //Remove an element at specified position
   public void delete(int pos) {
     Sequence ptr = this, prev = null;
     
@@ -87,9 +87,13 @@ public class Sequence extends Element {
   //Flatten a sequence.
   public Sequence flatten() {
     Sequence result = new Sequence();
-    
-    for (Sequence itr = this; itr != null; itr = itr.next)
-      result.add(itr.element, result.length());
+ 
+    for (Sequence i = this; i != null && i.element != null; i = i.next)
+      if (i.element instanceof Sequence)
+        for(Sequence j = ((Sequence)(i.element)).flatten(); j != null; j = j.next) 
+          result.add(j.element, result.length());
+      else 
+        result.add(i.element, result.length());
       
     return result;   
   }
@@ -98,9 +102,21 @@ public class Sequence extends Element {
   public Sequence copy() {
     Sequence result = new Sequence();
     
-    for (Sequence itr = this; itr != null; itr = itr.next)
-      result.add(itr.element, result.length());
-    
+    for (Sequence i = this; i != null && i.element != null; i = i.next) {
+      if (i.element instanceof MyChar) {
+          MyChar temp = new MyChar();
+          temp.Set(((MyChar)i.element).Get());
+          result.add(temp, result.length());
+      }
+      else if (i.element instanceof MyInteger) { 
+          MyInteger temp = new MyInteger();
+          temp.Set(((MyInteger)i.element).Get());
+          result.add(temp, result.length());
+      }
+      else
+        result.add(((Sequence)(i.element)).copy(), result.length());
+    }
+     
     return result;
   }
 

@@ -90,6 +90,7 @@ class Test3 {
 	dbl_line();
 	Sequence sFlat = s.flatten();
 	System.out.print ("Flattened sequence sFlat : ");
+  
 	sFlat.Print();
 	dbl_line();
 
@@ -133,5 +134,4 @@ class Test3 {
 	s.Print(); // shouldn't loop indefinitely
 	dbl_line();
    }
-
 }
