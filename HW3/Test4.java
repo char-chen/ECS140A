@@ -40,9 +40,9 @@ class Test4 {
 	Element elm;
 	System.out.print("!");
 	for (it1 = s1.begin(); !it1.equal(s1.end()); it1.advance()) {
-	   elm = it1.get();
-	   elm.Print();
-	   System.out.print("!");
+    elm = it1.get();
+	  elm.Print();
+	  System.out.print("!");
 	}
 	System.out.println();
 

@@ -11,18 +11,14 @@ public class SequenceIterator extends Element {
   }
    
   public boolean equal(SequenceIterator other) {
-    return this == other;
+    return this.current == other.current;
   }
   
   public void advance() {
-    if (current != null)
-      current = current.next;
+    current = current.next;
   }
 
   public Element get() {
-    if (current != null)
-      return current.element;
-
-    return null;
+    return current.element;
   }
 }

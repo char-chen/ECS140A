@@ -14,9 +14,9 @@ public class Sequence extends Element {
   public void Print() {
     System.out.print("[ ");
         
-    for (Sequence ptr = this; ptr != null; ptr = ptr.next, System.out.print(" ")) 
+    for (Sequence ptr = this; ptr != null; ptr = ptr.next, System.out.print(" "))
       ptr.element.Print();
-    
+     
     System.out.print("]");
   }
   
@@ -127,6 +127,6 @@ public class Sequence extends Element {
 
   //One past the end
   public SequenceIterator end() {
-    return null;
+    return new SequenceIterator(null);
   }
 }

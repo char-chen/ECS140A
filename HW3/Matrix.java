@@ -1,15 +1,19 @@
 public class Matrix extends Sequence {
   
-  public MyInteger[][] matrix;
-  public int row;
-  public int column;
+  public Sequence row;
+  public Sequence column;
+  public int rowSize;
+  public int columnSize;
   
   public Matrix(int rowsize, int colsize) {
-    matrix = new MyInteger[rowsize][colsize];
+    matrix = new Sequence[rowsize];
     row = rowsize;
     column = colsize;
+    
+    for (int i = 0, j = 0; i < row; i++) {
+      for (Sequence itr = matrix[i]; j < column; itr = itr.next, j++) 
+        matrix[i].element = n; 
   }
- 
   //Set the value of an element 
   public void Set(int rowsize, int colsize, int value) {
     matrix[rowsize][colsize].Set(value);
