@@ -4,6 +4,10 @@ public class MyChar extends Element {
   public MyChar() {
     c = '0';
   }
+  
+  public MyChar(char c) {
+    this.c = c;
+  }
     
   public char Get() { 
     return c;

@@ -5,6 +5,10 @@ public class MyInteger extends Element {
     i = 0;
   }
   
+  public MyInteger(int i) {
+    this.i = i;
+  }
+    
   public int Get() { 
     return i;
   }
