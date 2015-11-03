@@ -4,7 +4,11 @@ public class Sequence extends Element {
  
   public Sequence() {
   }
-   
+
+  public Sequence(Element element) {
+    this.element = element;
+  }
+     
   public Sequence(Element element, Sequence next) {
     this.element = element;
     this.next = next;

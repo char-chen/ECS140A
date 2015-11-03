@@ -27,7 +27,7 @@ class Test5 {
 		i_arr[i].Set(i_arr[i].Get()/10000000);
 
 	// test Set()
-	Matrix m1 = new Matrix(6, 4);
+	Matrix m1 = new Matrix(6, 4);  
   Matrix m2 = new Matrix(6, 4);
   for (int i = 0, cntr = -1; i< 6; i++) {
          for (int j = 0; j < 4; j++) {
