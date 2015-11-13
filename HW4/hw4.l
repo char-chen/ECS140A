@@ -2,13 +2,13 @@
 ;;; Your solution goes in this file ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 (defun all-length(listy)
-	(cond
+	(cond	
 		((null listy) 0)
-                ((atom listy) 1)
-	         
-                (t (+ (all-length (car listy))
-                      (all-length (cdr listy))))))
+      		((atom listy) 1)
+        	(t (+ (all-length (car listy))
+        	        (all-length (cdr listy))))))
 
 (defun range(listy)
 	(setq x (apply 'min listy))
@@ -16,7 +16,7 @@
 	(list x y))
 
 (defun before (a b mylist)
-  (cond ((null mylist) nil)
+	(cond ((null mylist) nil)
 	((and (null a) (equal (car mylist) b)) (list (car mylist)))
 	((null a) (cons (car mylist) (before nil b (cdr mylist))))
 	((equal (car mylist) a) (cons (car mylist) (before nil b (cdr mylist))))
