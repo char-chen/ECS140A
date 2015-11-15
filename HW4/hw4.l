@@ -1,4 +1,4 @@
-;;;;;;;;;;;; Part 1 ;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;; Part 1 ;;;;;;;;;;;;;;;;;;
 
 (defun all-length(listy)
   (cond	
@@ -49,12 +49,26 @@
   (loop for i from 1 to x
     do (setq end (+ start n))
     do (setq result (append result (list (subseq l start end))))
-    do (setq start (+ start n))
-  )
+    do (setq start (+ start n)))
   
   (if (not (null (subseq l end (length l))))
-      (setq result (append result (list (subseq l end (length l)))))
-  )
+      (setq result (append result (list (subseq l end (length l))))))
   
   result
 )
+
+(defun mostn(f l)
+  (setq m (reduce #'max (mapcar f l)))
+  (setq result '())
+  
+  (loop for i in l
+    do (if (= m (funcall f i)) 
+        (setq result (append result (list i)))))
+
+  (setq result (append (list result) (list m)))
+)
+
+;;;;;;;;;;;;;; Part 2 ;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;; Part 3 ;;;;;;;;;;;;;;;;;;
