@@ -72,11 +72,11 @@
 
 (defun match(l1 l2)
   (cond
-    ((or (null l1) (null l2)) (return-from match (equal l1 l2)))
-    ((equal (first l1) '?) (return-from match (match (rest l1) (rest l2))))
-    ((and (equal (first l1) '!) (match (rest l1) (rest l2))) (return-from match T))
-    ((equal (first l1) '!) (return-from match (match l1 (rest l2))))
-    (T (return-from match (and (equal (first l1) (first l2)) (match (rest l1) (rest l2))))))
+    ((or (null l1) (null l2)) (equal l1 l2))
+    ((equal (first l1) '?) (match (rest l1) (rest l2)))
+    ((and (equal (first l1) '!) (match (rest l1) (rest l2))) T)
+    ((equal (first l1) '!) (match l1 (rest l2)))
+    (T (and (equal (first l1) (first l2)) (match (rest l1) (rest l2))))
+  )
 )
-
 ;;;;;;;;;;;;;; Part 3 ;;;;;;;;;;;;;;;;;;
