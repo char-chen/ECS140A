@@ -52,10 +52,8 @@
     do (setq start (+ start n))
   )
   
-  (setq lst (subseq l end (length l)))
-
-  (if (not (null lst))
-      (setq result (append result (list lst)))
+  (if (not (null (subseq l end (length l))))
+      (setq result (append result (list (subseq l end (length l)))))
   )
   
   result
