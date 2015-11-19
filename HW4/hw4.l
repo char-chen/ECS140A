@@ -73,29 +73,30 @@
 (defun match(l1 l2)
   (cond
     ((or (null l1) (null l2)) (equal l1 l2))
-    ((equal (first l1) '?) (match (rest l1) (rest l2)))
-    ((and (equal (first l1) '!) (match (rest l1) (rest l2))) T)
-    ((equal (first l1) '!) (match l1 (rest l2)))
-    (T (and (equal (first l1) (first l2)) (match (rest l1) (rest l2))))
+    ((equal (car l1) '?) (match (cdr l1) (cdr l2)))
+    ((and (equal (car l1) '!) (match (cdr l1) (cdr l2))))
+    ((equal (car l1) '!) (match l1 (cdr l2)))
+    ((and (equal (car l1) (car l2)) (match (cdr l1) (cdr l2))))
   )
 )
+
 ;;;;;;;;;;;;;; Part 3 ;;;;;;;;;;;;;;;;;;
 
 (defun match-var (l1 l2)
   (cond
-    ((or (null l1) (null l2)) (equal l1 l2))
-    ((and (atom (car l1)) (atom (car l2))) (and (equal (car l1) (car l2)) (match-var (cdr l1) (cdr l2))))
-    ((equal (caar l1) '?) (set (cadar l1) (car l2)) (match-var (cdr l1) (cdr l2)))
-    ((and (and (listp (car l1)) (equal (caar l1) '!))
-    (cond
-      ((not (boundp (cadar l1))) (set (cadar l1) (list(first l2))))
-      ((listp (eval(cadar l1))) (set (cadar l1) (append (eval (cadar l1)) (list(car l2)))))
-      ((set (cadar l1) (list(first l2))))
-    )
+	  ((or (null l1) (null l2)) (equal l1 l2))
+	  ((and (atom (car l1)) (atom (car l2))) (and (equal (car l1) (car l2)) (match-var (cdr l1) (cdr l2))))
+	  ((equal (caar l1) '?) (set (cadar l1) (car l2)) (match-var (cdr l1) (cdr l2)))
+	  ((and (and (listp (car l1)) (equal (caar l1) '!))
+	  (cond
+          ((not (boundp (cadar l1))) (set (cadar l1) (list(car l2))))
+          ((listp (eval(cadar l1))) (set (cadar l1) (append (eval (cadar l1)) (list(car l2)))))
+          ((set (cadar l1) (list(car l2))))
+	  )
     
     (match-var (cdr l1) (cdr l2)))) 
 	  
-    ((and (listp (car l1)) (equal (caar l1) '!))
+    ((and (listp (car l1)) (equal (caar l1) '!))    
       (cond
         ((not (boundp (cadar l1))) (set (cadar l1) (list(car l2)))) 
         ((listp (eval (cadar l1))))
