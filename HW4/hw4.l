@@ -90,13 +90,13 @@
 	    (cond
         	((not (boundp (cadar l1))) (set (cadar l1) (list(first l2))))
         	((listp (eval(cadar l1))) (set (cadar l1) (append (eval (cadar l1)) (list(car l2)))))
-        	((set (cadar l1) (list(first l2)))(write (eval (cadar l1))))
+        	((set (cadar l1) (list(first l2))))
 	    )
       	    (match-var (cdr l1) (cdr l2)))) 
 	((and (listp (car l1)) (equal (caar l1) '!))    
 	    (cond
-        	((not (boundp (cadar l1))) (set (cadar l1) (list(car l2))) (write (eval (cadar l1))) )
-        	((listp (eval (cadar l1))) )
+        	((not (boundp (cadar l1))) (set (cadar l1) (list(car l2)))) 
+        	((listp (eval (cadar l1))))
       	    )
 	  (match-var l1 (cdr l2)))
     )
