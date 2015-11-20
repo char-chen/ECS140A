@@ -74,9 +74,9 @@
   (cond
     ((or (null l1) (null l2)) (equal l1 l2))
     ((equal (car l1) '?) (match (cdr l1) (cdr l2)))
-    ((and (equal (car l1) '!) (match (cdr l1) (cdr l2))))
+    ((and (equal (car l1) '!) (match (cdr l1) (cdr l2)))T)
     ((equal (car l1) '!) (match l1 (cdr l2)))
-    ((and (equal (car l1) (car l2)) (match (cdr l1) (cdr l2))))
+    (T(and (equal (car l1) (car l2)) (match (cdr l1) (cdr l2))))
   )
 )
 
