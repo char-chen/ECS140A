@@ -99,7 +99,7 @@
     ((and (listp (car l1)) (equal (caar l1) '!))    
       (cond
         ((not (boundp (cadar l1))) (set (cadar l1) (list(car l2)))) 
-        ((listp (eval (cadar l1))))
+        ;((listp (eval (cadar l1))))
       )
       (match-var l1 (cdr l2))
     )
