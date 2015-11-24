@@ -5,13 +5,13 @@
 /*starting in part 1*/ 
 %a 
 
-fc_course(C) :- 
-    course(C, _, Units), 
+fc_course(Cl) :- 
+    course(Cl, _, Units), 
     (Units=3; Units=4). 
     
 %b 
 prereq_110(C) :-
-    course(C, P, _),
+    course(C, P, What),
     member(ecs110, P). 
     
 %c 
