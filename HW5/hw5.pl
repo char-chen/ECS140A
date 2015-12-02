@@ -82,5 +82,15 @@ append3(L1, L2, L3, L):-
   append(L1, LL, L), 
   append(L2,L3,LL).
 
-palin([]) :-
+%palin 
+my_reverse([],[]). 
+my_reverse([H|T], LR) :-
+    my_reverse(T, TR),
+    append(TR, [H], LR). 
+    
+palin(A):- 
+    my_reverse(A, AT), 
+    A = AT. 
+%good 
+
     
