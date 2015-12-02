@@ -92,5 +92,9 @@ palin(A):-
     my_reverse(A, AT), 
     A = AT. 
 %good 
-
+good([0]). 
+good([1|T]):- 
+    append(X, Y, T), 
+    good(X), 
+    good(Y).
     
