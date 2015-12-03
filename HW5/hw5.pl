@@ -52,12 +52,12 @@ prereq(Courses, Prereq) :-
 /* Part 2 */
 % all_length
 all_length([],0). %base case for 0. 
-all_length([H|T], Len):- 
+all_length([H|T], Len) :- 
   atom(H), 
   all_length(T, LenT), 
   Len is LenT + 1. 
     
-all_length([[H|TH] | T], Len):- 
+all_length([[H|TH] | T], Len) :- 
   all_length([H|TH], LenT), 
   all_length(T, LenT1), 
   Len is LenT + LenT1. 
@@ -67,18 +67,17 @@ equal_a_b(L):-
   equal_help(L,0,0). 
 
 equal_help([], Acount, Acount). 
-
-equal_help([H|T], Acount, Bcount):- 
+equal_help([H|T], Acount, Bcount) :- 
   H = a -> (HA is Acount + 1, equal_help(T, HA, Bcount)); 
   H = b -> (HB is Bcount + 1, equal_help(T, Acount, HB)); 
   equal_help(T, Acount, Bcount). 
 
 % swap_prefix_suffix
-swap_prefix_suffix(K, L, S):- %K is is the middle position. L is what has been appended. S - swap
+swap_prefix_suffix(K, L, S) :- %K is is the middle position. L is what has been appended. S - swap
   append3(Prefix, K, Suffix, L), 
   append3(Suffix, K, Prefix, S). 
     
-append3(L1, L2, L3, L):- 
+append3(L1, L2, L3, L) :- 
   append(L1, LL, L), 
   append(L2,L3,LL).
 
@@ -109,47 +108,44 @@ unsafe(state(X, W, Y, Y)) :-
 safe(A) :-
   \+ unsafe(A).
 
-print([]).
-print([H|T]) :-
-  write(H), 
-  write(' '),
-  print(T).
-
-arc(state(X, X, G, C), state(Y, Y, G, C)):- 
-	opposite(X,Y), 
+arc(state(X, X, G, C), state(Y, Y, G, C)) :- 
+	opposite(X,Y),
   safe(state(Y,Y,G,C)),
-	print(['take farmer takes wolf ',Y,Y,G,C]),
+	print(['try: farmer takes wolf ',Y,Y,G,C]),
   nl. 
 
-arc(state(X, W, X, C), state(Y, W, Y, C)):- 
-	opposite(X,Y), safe(state(Y,W,Y,C)),
-	print(['try farmer takes goat ',Y,W,Y,C]),
+arc(state(X, W, X, C), state(Y, W, Y, C)) :- 
+	opposite(X,Y), 
+  safe(state(Y,W,Y,C)),
+	print(['try: farmer takes goat ',Y,W,Y,C]),
   nl. 
 
-arc(state(X, W, G, X), state(Y, W, G, Y)):- 
-	opposite(X,Y), safe(state(Y,W,G,Y)),
-	print(['try farmer takes cabbage ',Y,W,G,Y]),
+arc(state(X, W, G, X), state(Y, W, G, Y)) :- 
+	opposite(X,Y), 
+  safe(state(Y,W,G,Y)),
+	print(['try: farmer takes cabbage ',Y,W,G,Y]),
   nl. 
 
-arc(state(X, W, G, C), state(Y, W, G, C)):- 
-	opposite(X,Y), safe(state(Y,W,G,C)),
-	print(['try farmer takes self ',Y,W,G,C]),
+arc(state(X, W, G, C), state(Y, W, G, C)) :- 
+	opposite(X,Y), 
+  safe(state(Y,W,G,C)),
+	print(['try: farmer takes self ',Y,W,G,C]),
   nl. 
 
-arc(state(F, W, G, C), state(F, W, G, C)):- 
-	print(['    BACKTRACK from: ',F,W,G,C]),
+arc(state(F, W, G, C), state(F, W, G, C)) :- 
+	print(['BACKTRACK from:',F,W,G,C]),
   nl,
   fail. 
 
-path(Goal, Goal, List):-
-	write('Solution Path is: '),
+path(Goal, Goal, List) :-
+	write('Solution Path: '),
   nl,
 	write(List).
 
-path(State, Goal, List):-
+path(State, Goal, List) :-
 	arc(State, NextState),
-	\+ member(NextState,List),
-	path(NextState,Goal,[NextState|List]),
+	\+ member(NextState, List),
+	path(NextState, Goal, [NextState|List]),
   !.
 
-go :-  path(state(left, left,left, left), state(right, right, right, right),[state(left, left, left, left)]).
+solve :- path(state(left, left,left, left), state(right, right, right, right), [state(left, left, left, left)]).
