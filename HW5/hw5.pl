@@ -140,12 +140,18 @@ arc(state(F, W, G, C), state(F, W, G, C)) :-
 path(Goal, Goal, List) :-
 	write('Solution Path: '),
   nl,
-	write(List).
+	writelst(List).
 
 path(State, Goal, List) :-
 	arc(State, NextState),
 	\+ member(NextState, List),
 	path(NextState, Goal, [NextState|List]),
   !.
+
+writelst([]).
+writelst([H|T]) :-
+  write(H), 
+  nl,
+  writelst(T).
 
 solve :- path(state(left, left,left, left), state(right, right, right, right), [state(left, left, left, left)]).
