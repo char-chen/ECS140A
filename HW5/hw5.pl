@@ -108,39 +108,39 @@ unsafe(state(X, W, Y, Y)) :-
 safe(A) :-
   \+ unsafe(A).
 
-arc(state(X, X, G, C), state(Y, Y, G, C)) :- 
-	opposite(X,Y),
+arc(state(X, X, G, C), state(Y, Y, G, C)) :-
+  opposite(X,Y),
   safe(state(Y,Y,G,C)).
-	%print(['try: farmer takes wolf ',Y,Y,G,C]), nl. 
+  %print(['try: farmer takes wolf ',Y,Y,G,C]), nl. 
 
-arc(state(X, W, X, C), state(Y, W, Y, C)) :- 
-	opposite(X,Y), 
+arc(state(X, W, X, C), state(Y, W, Y, C)) :-
+  opposite(X,Y),
   safe(state(Y,W,Y,C)).
-	%print(['try: farmer takes goat ',Y,W,Y,C]), nl. 
+  %print(['try: farmer takes goat ',Y,W,Y,C]), nl. 
 
-arc(state(X, W, G, X), state(Y, W, G, Y)) :- 
-	opposite(X,Y), 
+arc(state(X, W, G, X), state(Y, W, G, Y)) :-
+  opposite(X,Y),
   safe(state(Y,W,G,Y)).
-	%print(['try: farmer takes cabbage ',Y,W,G,Y]), nl. 
+  %print(['try: farmer takes cabbage ',Y,W,G,Y]), nl. 
 
-arc(state(X, W, G, C), state(Y, W, G, C)) :- 
-	opposite(X,Y), 
+arc(state(X, W, G, C), state(Y, W, G, C)) :-
+  opposite(X,Y),
   safe(state(Y,W,G,C)).
-	%print(['try: farmer takes self ',Y,W,G,C]), nl. 
+  %print(['try: farmer takes self ',Y,W,G,C]), nl. 
 
-arc(state(F, W, G, C), state(F, W, G, C)) :- 
-	%print(['BACKTRACK from:',F,W,G,C]), nl,
+arc(state(F, W, G, C), state(F, W, G, C)) :-
+  %print(['BACKTRACK from:',F,W,G,C]), nl,
   fail. 
 
 path(Goal, Goal, List) :-
-	write('Solution Path: '),
+  write('Solution Path: '),
   nl,
-	writelst(List).
+  writelst(List).
 
 path(State, Goal, List) :-
-	arc(State, NextState),
-	\+ member(NextState, List),
-	path(NextState, Goal, [NextState|List]),
+  arc(State, NextState),
+  \+ member(NextState, List),
+  path(NextState, Goal, [NextState|List]),
   !.
 
 writelst([]).
