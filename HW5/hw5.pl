@@ -150,8 +150,8 @@ path(State, Goal, List) :-
 
 writelst([]).
 writelst([H|T]) :-
+  writelst(T),
   write(H), 
-  nl,
-  writelst(T).
+  nl.
 
-solve :- path(state(left, left,left, left), state(right, right, right, right), [state(left, left, left, left)]).
+solve :- path(state(left, left, left, left), state(right, right, right, right), [state(left, left, left, left)]).
