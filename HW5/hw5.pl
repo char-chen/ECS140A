@@ -85,16 +85,90 @@ append3(L1, L2, L3, L):-
 %palin 
 my_reverse([],[]). 
 my_reverse([H|T], LR) :-
-    my_reverse(T, TR),
-    append(TR, [H], LR). 
+  my_reverse(T, TR),
+  append(TR, [H], LR). 
     
 palin(A):- 
-    my_reverse(A, AT), 
-    A = AT. 
+  my_reverse(A, AT), 
+  A = AT. 
+
 %good 
 good([0]). 
 good([1|T]):- 
-    append(X, Y, T), 
-    good(X), 
-    good(Y).
-    
+  append(X, Y, T), 
+  good(X), 
+  good(Y).
+
+/* Part 3 */
+opposite(A, B).
+opposite(B, A).
+
+unsafe(state(X,Y,Y,C)) :- 
+  opposite(X, Y).
+
+unsafe(state(X,W,Y,Y)) :- 
+  opposite(X, Y).
+
+safe(A) :-
+  \+ unsafe(A).
+
+go(Start, Goal) :-
+  empty_stack(Empty_been_stack),
+  stack(Start,Empty_been_stack,Been_stack),
+  path(Start,Goal,Been_stack).
+
+path(Goal,Goal,Been_stack) :-
+  write('Solution Path Is:' ),
+  nl,
+  reverse_print_stack(Been_stack).
+
+path(State, Goal, Been_stack) :-
+  arc(State, Next_state),
+  not(member_stack(Next_state, Been_stack)),
+  stack(Next_state,Been_stack, New_been_stack),
+  path(Next_state, Goal, New_been_stack),
+  !.
+
+arc(state(X,X,G,C), state(Y,Y,G,C)) :- 
+  opposite(X,Y),
+  safe(state(Y,Y,G,C)),
+  writelist(['try farmer takes wolf',Y,Y,G,C]).
+
+arc(state(X,W,X,C), state(Y,W,Y,C)) :- 
+  opposite(X,Y),
+  safe(state(Y,W,Y,C)),
+  writelist(['try farmer takes goat',Y,W,Y,C]). 
+
+arc(state(X,W,G,X), state(Y,W,G,Y)) :- 
+  opposite(X,Y), 
+  safe(state(Y,W,G,Y)),
+  writelist(['try farmer takes cabbage',Y,W,G,Y]).
+
+arc(state(X,W,G,C), state(Y,W,G,C)) :- 
+  opposite(X,Y), 
+  safe(state(Y,W,G,C)),
+  writelist(['try farmer takes self',Y,W,G,C]).
+
+arc(state(F,W,G,C), state(F,W,G,C)) :- 
+  writelist(['      BACKTRACK from:',F,W,G,C]), 
+  fail.
+
+writelist([]) :-
+  nl.
+
+writelist([H|T]) :- 
+  print(H), 
+  tab(1),  /* "tab(n)" skips n spaces. */
+  writelist(T).
+
+reverse_print_stack(S) :-
+  empty_stack(S).
+
+reverse_print_stack(S) :-
+  stack(E, Rest, S),
+  reverse_print_stack(Rest),
+  write(E), 
+  nl.
+
+empty_stack([]).
+stack(E, S, [E|S]).
