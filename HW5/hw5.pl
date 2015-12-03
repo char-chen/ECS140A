@@ -102,12 +102,6 @@ good([1|T]):-
 opposite(left, right).
 opposite(right, left).
 
-writelst([]).
-writelst([H|T]) :-
-  write(H), 
-  write(' '),
-  writelst(T).
-
 unsafe(state(X, Y, Y, C)) :- 
   opposite(X, Y).
 unsafe(state(X, W, Y, Y)) :- 
@@ -115,31 +109,35 @@ unsafe(state(X, W, Y, Y)) :-
 safe(A) :-
   \+ unsafe(A).
 
-
+print([]).
+print([H|T]) :-
+  write(H), 
+  write(' '),
+  print(T).
 
 arc(state(X, X, G, C), state(Y, Y, G, C)):- 
 	opposite(X,Y), 
   safe(state(Y,Y,G,C)),
-	writelst(['take farmer takes wolf ',Y,Y,G,C]),
+	print(['take farmer takes wolf ',Y,Y,G,C]),
   nl. 
 
 arc(state(X, W, X, C), state(Y, W, Y, C)):- 
 	opposite(X,Y), safe(state(Y,W,Y,C)),
-	writelst(['try farmer takes goat ',Y,W,Y,C]),
+	print(['try farmer takes goat ',Y,W,Y,C]),
   nl. 
 
 arc(state(X, W, G, X), state(Y, W, G, Y)):- 
 	opposite(X,Y), safe(state(Y,W,G,Y)),
-	writelst(['try farmer takes cabbage ',Y,W,G,Y]),
+	print(['try farmer takes cabbage ',Y,W,G,Y]),
   nl. 
 
 arc(state(X, W, G, C), state(Y, W, G, C)):- 
 	opposite(X,Y), safe(state(Y,W,G,C)),
-	writelst(['try farmer takes self ',Y,W,G,C]),
+	print(['try farmer takes self ',Y,W,G,C]),
   nl. 
 
 arc(state(F, W, G, C), state(F, W, G, C)):- 
-	writelst(['    BACKTRACK from: ',F,W,G,C]),
+	print(['    BACKTRACK from: ',F,W,G,C]),
   nl,
   fail. 
 
