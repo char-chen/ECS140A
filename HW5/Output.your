@@ -301,3 +301,11 @@ no
 
 TESTING puzzle
 
+Solution Path:
+take(goat, left, right)
+take(none, right, left)
+take(cabbage, left, right)
+take(goat, right, left)
+take(wolf, left, right)
+take(none, right, left)
+take(goat, left, right)
