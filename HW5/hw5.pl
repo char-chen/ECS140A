@@ -98,55 +98,84 @@ good([1|T]):-
   good(Y).
 
 /* Part 3 */
-opposite(left, right).
-opposite(right, left).
+opposite(left,right).
+opposite(right,left).
 
-unsafe(state(X, Y, Y, C)) :- 
-  opposite(X, Y).
-unsafe(state(X, W, Y, Y)) :- 
-  opposite(X, Y).
+unsafe(state(F,X,X,_)):-  
+  opposite(F,X),
+  !.
+
+unsafe(state(F,_,X,X)):-  
+  opposite(F,X),
+  !.
 safe(A) :-
   \+ unsafe(A).
 
-arc(state(X, X, G, C), state(Y, Y, G, C)) :-
-  opposite(X,Y),
-  safe(state(Y,Y,G,C)).
-  %print(['try: farmer takes wolf ',Y,Y,G,C]), nl. 
+go(StartState,GoalState):- 
+  path(StartState,GoalState,[StartState],Path), 
+  write('Solution Path:'),
+  nl, 
+  write_path(Path).
 
-arc(state(X, W, X, C), state(Y, W, Y, C)) :-
-  opposite(X,Y),
-  safe(state(Y,W,Y,C)).
-  %print(['try: farmer takes goat ',Y,W,Y,C]), nl. 
-
-arc(state(X, W, G, X), state(Y, W, G, Y)) :-
-  opposite(X,Y),
-  safe(state(Y,W,G,Y)).
-  %print(['try: farmer takes cabbage ',Y,W,G,Y]), nl. 
-
-arc(state(X, W, G, C), state(Y, W, G, C)) :-
-  opposite(X,Y),
-  safe(state(Y,W,G,C)).
-  %print(['try: farmer takes self ',Y,W,G,C]), nl. 
-
-arc(state(F, W, G, C), state(F, W, G, C)) :-
-  %print(['BACKTRACK from:',F,W,G,C]), nl,
-  fail. 
-
-path(Goal, Goal, List) :-
-  write('Solution Path: '),
-  nl,
-  writelst(List).
-
-path(State, Goal, List) :-
-  arc(State, NextState),
-  \+ member(NextState, List),
-  path(NextState, Goal, [NextState|List]),
+path(GoalState,GoalState,Path,Path). % The final state is reached
+path(StartState,GoalState,VisitedPath,Path):- 
+  move(StartState,NextState), % Find a move 
+  safe(NextState), % Check that it is not unsage 
+  \+ member(NextState,VisitedPath), % Check that we have not had this situation before 
+  path(NextState,GoalState,[NextState|VisitedPath],Path),
   !.
 
-writelst([]).
-writelst([H|T]) :-
-  writelst(T),
-  write(H), 
+move(state(X,X,G,C),state(Y,Y,G,C)):- 
+  opposite(X,Y). % Move FARMER + WOLF
+
+move(state(X,W,X,C),state(Y,W,Y,C)):- 
+  opposite(X,Y). % Move FARMER + GOAT
+
+move(state(X,W,G,X),state(Y,W,G,Y)):- 
+  opposite(X,Y). % Move FARMER + CABBAGE
+
+move(state(X,W,G,C),state(Y,W,G,C)):- 
+  opposite(X,Y). % Move ONLY FARMER
+
+write_path([]).
+write_path([H1,H2|T]):- 
+  write_move(H1,H2),
+  write_path([H2|T]).
+
+write_move(state(X,W,G,C),state(Y,W,G,C)):- 
+  !,
+  write('take(none, '),
+  write(Y),
+  write(', '),
+  write(X),
+  write(')'),
   nl.
 
-solve :- path(state(left, left, left, left), state(right, right, right, right), [state(left, left, left, left)]).
+write_move(state(X,X,G,C),state(Y,Y,G,C)) :- 
+  !,
+  write('take(wolf, '),
+  write(Y),
+  write(', '),
+  write(X),
+  write(')'),
+  nl.
+
+write_move(state(X,W,X,C),state(Y,W,Y,C)) :- 
+  !,
+  write('take(goat, '),
+  write(Y),
+  write(', '),
+  write(X),
+  write(')'),
+  nl.
+
+write_move(state(X,W,G,X),state(Y,W,G,Y)) :- 
+  !,
+  write('take(cabbage, '),
+  write(Y),
+  write(', '),
+  write(X),
+  write(')'),
+  nl.
+
+solve :- go(state(left, left, left, left), state(right, right, right, right)).
