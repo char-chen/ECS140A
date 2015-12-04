@@ -119,22 +119,22 @@ go(StartState,GoalState):-
 
 path(GoalState,GoalState,Path,Path). % The final state is reached
 path(StartState,GoalState,VisitedPath,Path):- 
-  move(StartState,NextState), % Find a move 
+  take(StartState,NextState), % Find a take 
   safe(NextState), % Check that it is not unsage 
   \+ member(NextState,VisitedPath), % Check that we have not had this situation before 
   path(NextState,GoalState,[NextState|VisitedPath],Path),
   !.
 
-move(state(X,X,G,C),state(Y,Y,G,C)):- 
+take(state(X,X,G,C),state(Y,Y,G,C)):- 
   opposite(X,Y). % Move FARMER + WOLF
 
-move(state(X,W,X,C),state(Y,W,Y,C)):- 
+take(state(X,W,X,C),state(Y,W,Y,C)):- 
   opposite(X,Y). % Move FARMER + GOAT
 
-move(state(X,W,G,X),state(Y,W,G,Y)):- 
+take(state(X,W,G,X),state(Y,W,G,Y)):- 
   opposite(X,Y). % Move FARMER + CABBAGE
 
-move(state(X,W,G,C),state(Y,W,G,C)):- 
+take(state(X,W,G,C),state(Y,W,G,C)):- 
   opposite(X,Y). % Move ONLY FARMER
 
 write_path([]).
